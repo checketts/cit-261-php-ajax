@@ -1,0 +1,55 @@
+<html>
+
+<head>
+<script>
+    var postToPhp = function(event){
+        event.preventDefault();
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "http://localhost/php/rest-php.php", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+
+        xhr.onreadystatechange = function() {
+            console.log(xhr,xhr.readyState,xhr.status);
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                var person = JSON.parse(xhr.responseText);
+                console.log(person);
+                document.getElementById("output").textContent = JSON.stringify(person);
+            }
+        }
+
+        var inputtedName = document.querySelectorAll('input[name=bob]')[0].value;
+        console.log('Name:',name);
+        if(name && name.length > 0){
+            xhr.send(JSON.stringify({name:inputtedName}));
+        } else {
+            xhr.send();
+        }
+
+
+        console.log('ajax',xhr);
+    }
+
+    var init = function() {
+        document.getElementById('submitLink').addEventListener('click', postToPhp);
+    };
+    document.addEventListener("DOMContentLoaded", init);
+</script>
+
+
+</head>
+<body>
+
+<h2>Name form</h2>
+<form id="nameForm">
+    <label>Name:
+        <input name="bob" />
+    </label>
+    <button type="button" href="#" id="submitLink">Save</button>
+
+    <pre id="output"></pre>
+</form>
+
+</body>
+</html>
+
